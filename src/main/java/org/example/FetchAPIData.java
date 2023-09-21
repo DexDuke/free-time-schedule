@@ -13,9 +13,9 @@ public class FetchAPIData {
 
     static String routine="https://cse.uiu.ac.bd/notices/course-offerings-routine-summer-2023/";
     public static void main(String[] args) throws ParseException {
-        Scanner sc=new Scanner(System.in);
-        System.out.println("ID:");
-        String id=sc.next();
+//        Scanner sc=new Scanner(System.in);
+//        System.out.println("ID:");
+        String id="011221291";
 
 
 
@@ -75,7 +75,7 @@ public class FetchAPIData {
         }
 
         LocalDate today = LocalDate.now();
-        DayOfWeek dayOfWeek = today.getDayOfWeek();
+        DayOfWeek dayOfWeek = today.getDayOfWeek().plus(2);
         System.out.println(dayOfWeek);
         System.out.println("Today's Classes: ");
 
