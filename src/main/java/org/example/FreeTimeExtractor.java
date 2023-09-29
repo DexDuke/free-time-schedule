@@ -5,37 +5,40 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class FreeTimeExtractor {
-    List<TimeInterval>getFreeTimes(ArrayList<String>classTimes) throws ParseException {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm a");
-
+    List<TimeInterval> getFreeTimes(ArrayList<String> classTimes) throws ParseException {
+        SimpleDateFormat dateFormatWithSpace = new SimpleDateFormat("hh:mm a", Locale.US);
+        SimpleDateFormat dateFormatWithoutSpace = new SimpleDateFormat("hh:mma", Locale.US);
 
         // Define your class schedule as time intervals
         List<TimeInterval> classSchedule = new ArrayList<>();
 
-        for(String x: classTimes){
+        for (String x : classTimes) {
+            if (x.contains("–")) {
+                String[] split = x.split("–");
+                String start = split[0].trim(); // Trim any leading/trailing spaces
 
-            if(x.contains("–")){
-                String[] split=x.split("–");
+                try {
+                    classSchedule.add(new TimeInterval(dateFormatWithSpace.parse(start), dateFormatWithSpace.parse(split[1].trim())));
+                } catch (ParseException e) {
+                    // If parsing with space fails, try parsing without space
+                    classSchedule.add(new TimeInterval(dateFormatWithoutSpace.parse(start), dateFormatWithoutSpace.parse(split[1].trim())));
+                }
+            } else if (x.contains("-")) {
+                String[] split = x.split("-");
+                String start = split[0].trim(); // Trim any leading/trailing spaces
 
-                String start=split[0];
-                String end=split[1];
-
-                classSchedule.add(new TimeInterval(dateFormat.parse(start),dateFormat.parse(end)));
-            }else if(x.contains("-")){
-                String[] split=x.split("-");
-
-                String start=split[0];
-                String end=split[1];
-
-
-                classSchedule.add(new TimeInterval(dateFormat.parse(start),dateFormat.parse(end)));
+                try {
+                    classSchedule.add(new TimeInterval(dateFormatWithSpace.parse(start), dateFormatWithSpace.parse(split[1].trim())));
+                } catch (ParseException e) {
+                    // If parsing with space fails, try parsing without space
+                    classSchedule.add(new TimeInterval(dateFormatWithoutSpace.parse(start), dateFormatWithoutSpace.parse(split[1].trim())));
+                }
             }
-
         }
 
         // Define the time range from 8:30 AM to 4:30 PM
-        Date startTime = dateFormat.parse("8:30 AM");
-        Date endTime = dateFormat.parse("4:30 PM");
+        Date startTime = dateFormatWithSpace.parse("8:30 AM");
+        Date endTime = dateFormatWithSpace.parse("4:30 PM");
 
         // Sort the class schedule by start time
         Collections.sort(classSchedule, Comparator.comparing(TimeInterval::getStartTime));

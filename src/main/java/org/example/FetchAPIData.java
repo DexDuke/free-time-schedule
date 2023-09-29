@@ -11,11 +11,11 @@ import org.json.JSONObject;
 
 public class FetchAPIData {
 
-    static String routine="https://cse.uiu.ac.bd/notices/course-offerings-routine-summer-2023/";
+    static String routine="https://cse.uiu.ac.bd/notices/class-routine-fall-2023-dept-of-cse/";
     public static void main(String[] args) throws ParseException {
 //        Scanner sc=new Scanner(System.in);
 //        System.out.println("ID:");
-        String id="011221291";
+        String id="011221408";
 
 
 
